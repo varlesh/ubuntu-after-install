@@ -77,6 +77,7 @@ gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark
 
 # Fix workspace indicator style
 cd /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
+sudo rm stylesheet.css
 sudo wget https://raw.githubusercontent.com/varlesh/ubuntu-after-install/master/workspace-indicator-fix/stylesheet.css
 
 #Fix hardcode tray icons
