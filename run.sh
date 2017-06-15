@@ -1,18 +1,18 @@
-# Remove packages
+echo "Remove packages"
 sudo apt purge apport* firefox* gnome-mines gnome-sudoku aisleriot gnome-mahjongg gnome-music rhythmbox totem* vim-tiny vim-common
 sudo apt autoremove
 
-# Upgrade system
+echo "Upgrade system"
 sudo apt update
 sudo apt dist-upgrade
 
-# Download and install Google Chrome
+echo "Download and install Google Chrome"
 cd /tmp
 wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 sudo apt install -f
 
-# Download Telegram
+echo "Download and install Telegram"
 cd /tmp
 wget -c https://updates.tdesktop.com/tlinux/tsetup.1.1.7.tar.xz
 tar -xf tsetup*
@@ -20,21 +20,27 @@ mkdir -p ~/.local/share/TelegramDesktop/
 cp -R Telegram ~/.local/share/TelegramDesktop/
 timeout 10s ~/.local/share/TelegramDesktop/Telegram/Telegram
 
-# Add repos
+echo "Download and install WebTorrent Desktop"
+cd /tmp
+wget -c https://github.com/webtorrent/webtorrent-desktop/releases/download/v0.18.0/webtorrent-desktop_0.18.0-1_amd64.deb
+sudo dpkg -i webtorrent-*.deb
+sudo apt install -f
+
+echo "Add repos"
 sudo add-apt-repository ppa:papirus/papirus
 sudo add-apt-repository ppa:gnumdk/lollypop
 sudo add-apt-repository ppa:andreas-angerer89/sni-qt-patched
 sudo add-apt-repository ppa:webupd8team/indicator-kdeconnect
 sudo apt update
 
-# Install packages
+echo "Install packages"
 sudo apt install gnome-tweak-tool ubuntu-resricted-extras p7zip-full synaptic apt-xapian-index gdebi gnome-mpv caffeine lollypop geary inkscape gimp imagemagick papirus-icon-theme arc-theme hardcode-tray sni-qt dnsmasq indicator-kdeconnect npm nodejs-legacy git curl
 
-# Install SVGO
+echo "Install npm and SVGO"
 sudo npm install -g npm svgo
 
-# Install Gnome extensions
-# https://extensions.gnome.org/extension-info/?pk=759&shell_version=3.24
+echo "Install Gnome extensions"
+# "https://extensions.gnome.org/extension-info/?pk=759&shell_version=3.24
 cd /tmp
 mkdir -p ~/.local/share/gnome-shell/extensions
 
@@ -65,7 +71,7 @@ unzip openweather-extension@jenslody.de.zip -d ~/.local/share/gnome-shell/extens
 wget -O panel-osd@berend.de.schouwer.gmail.com.zip "https://extensions.gnome.org/download-extension/panel-osd@berend.de.schouwer.gmail.com.shell-extension.zip?version_tag=6639"
 unzip panel-osd@berend.de.schouwer.gmail.com.zip -d ~/.local/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com
 
-# Configure Gnome
+echo "Configure Gnome"
 sudo sed -i 's/white/#d3dae3/g' /usr/share/themes/Arc-Dark/gnome-shell/gnome-shell.css
 gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'disable-screenshield@lgpasquale.com', 'nohotcorner@azuri.free.fr', 'bettervolume@tudmotu.com', 'sound-output-device-chooser@kgshank.net', 'panel-osd@berend.de.schouwer.gmail.com', 'openweather-extension@jenslody.de', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'TopIcons@phocean.net', 'dash-to-panel@jderose9.github.com', 'arc-menu@linxgem33.com']"
 gsettings set org.gnome.mutter center-new-windows true
@@ -75,15 +81,22 @@ gsettings set org.gnome.shell.extensions.user-theme name Arc-Dark
 gsettings set org.gnome.desktop.interface gtk-theme Arc-Dark
 gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark
 
-# Fix workspace indicator style
+echo "Fix workspace indicator style"
 cd /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
 sudo rm stylesheet.css
 sudo wget https://raw.githubusercontent.com/varlesh/ubuntu-after-install/master/workspace-indicator-fix/stylesheet.css
 
-#Fix hardcode tray icons
+echo "Fix hardcode tray icons"
 hardcode-tray --theme Papirus-Dark --size 22 --conversion-tool Inkscape
 
-#Fix hardcode apps icons
+echo "Fix hardcode apps icons"
 cd /tmp
 wget https://raw.githubusercontent.com/Foggalong/hardcode-fixer/master/fix.sh
 sudo bash fix.sh
+
+echo "Fix StartupWMClass"
+cd /tmp
+wget https://raw.githubusercontent.com/bil-elmoussaoui/StartupWMClassFixer/master/fix
+sudo bash fix
+
+notify-send "Ubuntu After Install" "Finished" -t 15
