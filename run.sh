@@ -34,7 +34,7 @@ sudo add-apt-repository ppa:webupd8team/indicator-kdeconnect
 sudo apt update
 
 echo "Install packages"
-sudo apt install gnome-tweak-tool ubuntu-resricted-extras p7zip-full synaptic apt-xapian-index gdebi gnome-mpv caffeine lollypop geary inkscape gimp imagemagick papirus-icon-theme arc-theme hardcode-tray sni-qt dnsmasq indicator-kdeconnect npm nodejs-legacy git curl
+sudo apt install gnome-tweak-tool ubuntu-restricted-extras p7zip-full synaptic apt-xapian-index gdebi gnome-mpv caffeine lollypop geary inkscape gimp imagemagick papirus-icon-theme arc-theme hardcode-tray sni-qt dnsmasq indicator-kdeconnect npm nodejs-legacy git curl
 
 echo "Install npm and SVGO"
 sudo npm install -g npm svgo
@@ -73,20 +73,23 @@ unzip panel-osd@berend.de.schouwer.gmail.com.zip -d ~/.local/share/gnome-shell/e
 
 echo "Configure Gnome"
 sudo sed -i 's/white/#d3dae3/g' /usr/share/themes/Arc-Dark/gnome-shell/gnome-shell.css
-gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'disable-screenshield@lgpasquale.com', 'nohotcorner@azuri.free.fr', 'bettervolume@tudmotu.com', 'sound-output-device-chooser@kgshank.net', 'panel-osd@berend.de.schouwer.gmail.com', 'openweather-extension@jenslody.de', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'TopIcons@phocean.net', 'dash-to-panel@jderose9.github.com', 'arc-menu@linxgem33.com']"
 gsettings set org.gnome.mutter center-new-windows true
 gsettings set org.gnome.desktop.lockdown disable-lock-screen true
 gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 gsettings set org.gnome.shell.extensions.user-theme name Arc-Dark
 gsettings set org.gnome.desktop.interface gtk-theme Arc-Dark
 gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark
+gsettings set org.gnome.desktop.interface enable-animations false
 
-echo "Fix workspace indicator style"
-cd /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
-sudo rm stylesheet.css
-sudo wget https://raw.githubusercontent.com/varlesh/ubuntu-after-install/master/workspace-indicator-fix/stylesheet.css
+echo "Download OSX Theme and fix workspace indicator"
+cd /tmp
+git clone https://github.com/varlesh/ubuntu-after-install.git
+sudo cp -R ubuntu-after-install/OSX /usr/share/themes
+sudo cp ubuntu-after-install/workspace-indicator-fix/stylesheet.css /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com/
 
 echo "Fix hardcode tray icons"
+hardcode-tray --update-git
 hardcode-tray --theme Papirus-Dark --size 22 --conversion-tool Inkscape
 
 echo "Fix hardcode apps icons"
@@ -98,5 +101,6 @@ echo "Fix StartupWMClass"
 cd /tmp
 wget https://raw.githubusercontent.com/bil-elmoussaoui/StartupWMClassFixer/master/fix
 sudo bash fix
+cd
 
 notify-send "Ubuntu After Install" "Finished" -t 15
