@@ -26,6 +26,12 @@ wget -c https://github.com/webtorrent/webtorrent-desktop/releases/download/v0.18
 sudo dpkg -i webtorrent-*.deb
 sudo apt install -f
 
+echo "Download and install SmartGit"
+cd /tmp
+wget http://www.syntevo.com/smartgit/download?file=smartgit/smartgit-17_0_4.deb
+sudo dpkg -i smartgit-*.deb
+sudo apt install -f
+
 echo "Add repos"
 sudo add-apt-repository ppa:papirus/papirus
 sudo add-apt-repository ppa:gnumdk/lollypop
