@@ -94,7 +94,7 @@ hardcode-tray --theme Papirus-Dark --size 22 --conversion-tool Inkscape
 
 echo "Fix hardcode apps icons"
 cd /tmp
-wget https://raw.githubusercontent.com/Foggalong/hardcode-fixer/master/fix.sh
+wget https://raw.githubusercontent.com/varlesh/hardcode-fixer/master/fix.sh
 sudo bash fix.sh
 
 echo "Fix StartupWMClass"
